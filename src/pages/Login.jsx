@@ -58,7 +58,7 @@ const Login = () => {
             className="bg-blue-600 text-white p-2 rounded text-xl hover:bg-blue-800 hover:cursor-pointer"
             type="submit"
           >
-            Register
+            Login
           </button>
         </form>
       </div>
