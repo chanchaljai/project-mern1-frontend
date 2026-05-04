@@ -8,8 +8,16 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
 const loadProducts = async () => {
   try {
-    const res = await api.get("/products");
-    setProducts(res.data);
+    const res = await api.get("/products/list");
+    setProducts(res.data.products);
+  } catch (err) {
+    console.error(err);
+  }
+}
+const deleteProduct = async (id) => {
+  try {
+    await api.delete(`/products/${id}`);
+    loadProducts();
   } catch (err) {
     console.error(err);
   }
@@ -19,7 +27,7 @@ useEffect(() => {
   loadProducts();
 }, []);
 
-
+console.log("products state:", products);
   return (
     <div className="max-w-4xl mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
@@ -43,8 +51,24 @@ useEffect(() => {
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product._id}</td>
+              <tr key={product._id}>
+                <td className="p-2 border border-gray-200 text-center">{product._id} </td>
+                <td className="p-2 border border-gray-200 text-center">{product.title}</td>
+                <td className="p-2 border border-gray-200 text-center">{product.price}</td>
+                <td className="p-2 border border-gray-200 text-center">{product.stock}</td>
+                <td className="p-2 border border-gray-200 text-center">
+                  <Link to={`/admin/edit-product/${product._id}`}>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                      Edit
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() => deleteProduct(product._id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
