@@ -26,6 +26,7 @@ const AddProduct = () => {
     e.preventDefault();
     try {
       const res = await api.post("/products/create", form);
+      alert("Product added successfully");
       navigate("/admin/product-list");
     } catch (err) {
       console.log(err);
